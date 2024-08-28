@@ -10,41 +10,15 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private GameObject _squarePrefab;
     [SerializeField] private Transform _holder;
     private Vector2Int _currentHover;
+    private List<Vector2Int> _cachesPosChange = new();
     void OnEnable()
     {
         CreateChessBoard();
     }
-
-    private void Update()
+    
+    private void GetChess(Vector2Int posInBoard)
     {
-        if (!_currentCamera)
-        {
-            _currentCamera = Camera.current;
-            return;
-        }
-
-        RaycastHit info;
-        Ray ray = _currentCamera.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(ray,out info,100,LayerMask.GetMask("Tile")))
-        {
-            
-        }
-    }
-
-    private Vector2Int LooKupIndex(GameObject goHitInfo)
-    {
-        for (int x = 0; x < 8; x++)
-        {
-            for (int y = 0; y < 8; y++)
-            {
-                if (pointPices[x, y] == goHitInfo)
-                {
-                    return new Vector2Int(x, y);
-                }
-            }
-        }
-
-        return -Vector2Int.one;
+        pointPices[posInBoard.x, posInBoard.y].IsHasChess = false;
     }
     void CreateChessBoard()
     {
@@ -57,9 +31,31 @@ public class ChessBoard : MonoBehaviour
                 square.transform.localScale = new Vector3(0.1f, 1, 0.1f);
                 pointPices[x, y] = square.GetComponent<Tile>().SetPosition( (int)  square.transform.position.x,(int) square.transform.position.z);
                 Renderer renderer = square.GetComponent<Renderer>();
-                renderer.material.color = (x + y) % 2 == 0 ? Color.white : Color.black;
+                renderer.material.color = (x + y) % 2 == 0 ? SafeColor.Instance.GetColorByType(TypeColor.white)  : SafeColor.Instance.GetColorByType(TypeColor.black);
             }
         }
+    }
+    
+    public void HighlightValidMoves( ChessPieceColor colorChessMove ,List<Vector2Int> directionShows)
+    {
+        
+        foreach (var posTile in directionShows)
+        {
+            if(posTile.x < 0 || posTile.y <0) continue;
+            pointPices[posTile.x,posTile.y].DisplayValidMoves(colorChessMove);
+            _cachesPosChange.Add(posTile);
+        }
+    }
+
+    public void ResetColorBoard()
+    {
+        foreach (var pos in _cachesPosChange)
+        {
+            Renderer renderer =  pointPices[pos.x, pos.y].transform.GetComponent<Renderer>();
+            renderer.material.color = (pos.x + pos.y) % 2 == 0 ? SafeColor.Instance.GetColorByType(TypeColor.white)  : SafeColor.Instance.GetColorByType(TypeColor.black);
+        }
+              
+ 
     }
     
    

@@ -1,32 +1,49 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    private int _x;
-    private int _z;
-    private bool _isHasChess = false;
-    public int X => _x;
-    public int Z => _z;
-  
 
+    private int _x;
+    private int _y;
+    private bool _isHasChess = false;
+    
     public bool IsHasChess
     {
         set => this._isHasChess = value;
         get => _isHasChess;
     }
-
-    public Tile SetPosition(int x, int z)
+    public Tile SetPosition(int x, int y)
     {
         this._x = x;
-        this._z = z;
+        this._y = y;
         return this;
     }
-
-    public void OnMouseEnter()
+    public Vector2Int GetPosInBoard()
     {
-        Debug.Log("Hover");
+        return new Vector2Int(_x, _y);
     }
+
+    public void DisplayValidMoves(ChessPieceColor colorChessMove)
+    {
+        ChessPiece chessInTile = transform.GetComponentInChildren<ChessPiece>();
+        Debug.Log(this.transform.childCount);
+        Renderer renderer = this.gameObject.GetComponent<Renderer>();
+         if (chessInTile != null && colorChessMove != chessInTile.color)
+         {
+          //  Show color khác
+           
+            renderer.material.color = SafeColor.Instance.GetColorByType(TypeColor.hlenemyy);
+         }
+         else
+         {
+           // Show color direct
+            renderer.material.color = SafeColor.Instance.GetColorByType(TypeColor.heightlight);
+        }
+        
+    }
+    
+    
+    
+    
 }
