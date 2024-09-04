@@ -24,6 +24,12 @@ public class Tile : MonoBehaviour
         return new Vector2Int(_x, _y);
     }
 
+    public ChessPiece GetChessInTile()
+    {
+        if (!_isHasChess) return null;
+        return this.gameObject.GetComponentInChildren<ChessPiece>();
+    }
+
     public void DisplayValidMoves(ChessPieceColor colorChessMove)
     {
         ChessPiece chessInTile = transform.GetComponentInChildren<ChessPiece>();

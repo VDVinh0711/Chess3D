@@ -33,12 +33,15 @@ public abstract class ChessPiece : MonoBehaviour
     
     public virtual void MoveTo(Vector2Int targetPosition)
     {
+        board.pointPices[posInBoard.x, posInBoard.y].IsHasChess = false;
         posInBoard = targetPosition;
         Transform postile = board.pointPices[posInBoard.x, posInBoard.y].transform;
+        board.pointPices[posInBoard.x, posInBoard.y].IsHasChess = true;
         this.transform.SetParent(postile);
         transform.position = new Vector3(postile.position.x, 0, postile.position.z);
+        ListCanMove.Clear();
     }
 
-    public abstract void ShowPossibleMoves();
+    public abstract void ShowPossibleMoves(ChessPieceColor color);
 
 }

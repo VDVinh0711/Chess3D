@@ -16,8 +16,10 @@ public class ChessPieceManager : MonoBehaviour
 
     private void InitChessPiece()
     {
-        SetupPieces(ChessPieceColor.Black, 0, 1);
-        SetupPieces(ChessPieceColor.White, 7, 6);
+        // SetupPieces(ChessPieceColor.Black, 0, 1);
+        // SetupPieces(ChessPieceColor.White, 7, 6);
+       SpawnPiece( new Vector2Int(4, 0), ChessPieceColor.Black,ChessPieceType.Pawn);
+       SpawnPiece( new Vector2Int(5, 6), ChessPieceColor.White,ChessPieceType.Pawn);
     }
     
 
@@ -40,10 +42,11 @@ public class ChessPieceManager : MonoBehaviour
         SpawnPiece( new Vector2Int(5, backRow), color , ChessPieceType.Bishop);
 
         // Đặt hậu
-        SpawnPiece( new Vector2Int(3, backRow), color,ChessPieceType.Queen);
+        SpawnPiece( new Vector2Int(3, 3), color,ChessPieceType.Queen);
 
         // Đặt vua
-        SpawnPiece( new Vector2Int(4, backRow), color,ChessPieceType.King);
+       // SpawnPiece( new Vector2Int(4, backRow), color,ChessPieceType.King);
+        SpawnPiece( new Vector2Int(4, 3), color,ChessPieceType.King);
     }
     
     

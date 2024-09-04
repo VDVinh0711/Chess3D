@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Pawn : ChessPiece
@@ -10,15 +11,59 @@ public class Pawn : ChessPiece
         _isMoveFirst = true;
         ListCanMove.Clear();
     }
-    public override void ShowPossibleMoves()
+    public override void ShowPossibleMoves(ChessPieceColor color)
     {
-        if (!_isMoveFirst)
+       
+
+       
+        List<Vector2Int> offsets = new();
+        if (this.color == ChessPieceColor.Black)
         {
-                Vector2Int pointMove2 = new Vector2Int(posInBoard.x, posInBoard.y + 2);
-                ListCanMove.Add(pointMove2);
+            offsets.Add(new Vector2Int(posInBoard.x + 1, posInBoard.y +1));
+            offsets.Add(new Vector2Int(posInBoard.x - 1, posInBoard.y +1));
+            
+            if (!_isMoveFirst)
+            {
+                offsets.Add(new Vector2Int(posInBoard.x, posInBoard.y + 2));
+            }
+            offsets.Add(new Vector2Int(posInBoard.x, posInBoard.y + 1));
+           
         }
-        Vector2Int pointMove = new Vector2Int(posInBoard.x, posInBoard.y + 1);
-        ListCanMove.Add(pointMove);
+        else
+        {
+            offsets.Add(new Vector2Int(posInBoard.x - 1, posInBoard.y -1));
+            offsets.Add(new Vector2Int(posInBoard.x - 1, posInBoard.y +1));
+            if (!_isMoveFirst)
+            {
+                offsets.Add(new Vector2Int(posInBoard.x, posInBoard.y - 2));
+            }
+            offsets.Add(new Vector2Int(posInBoard.x, posInBoard.y - 1));
+        }
+
+    
+        
+        
+       
+        foreach (Vector2Int offset in offsets)
+        {
+            if(offset.x <0 || offset.x >=8 || offset.y <0 || offset.y >=8 ) continue; 
+            if (offset.x != this.posInBoard.x)
+            {
+                if (board.pointPices[offset.x, offset.y].IsHasChess)
+                {
+                    ChessPiece chessInPos = board.pointPices[offset.x, offset.y].GetChessInTile();
+                    if (chessInPos.color != color)
+                    {
+                        ListCanMove.Add(offset);
+                    }
+                }
+            }
+            else
+            {
+                ListCanMove.Add(offset);
+            }
+           
+        }
       
     }
 }

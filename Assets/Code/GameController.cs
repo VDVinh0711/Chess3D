@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
                 if(Physics.Raycast(ray,out info,100,LayerMask.GetMask("Piece")))
                 {
                     _currentPieceSelect = info.transform.gameObject.GetComponent<ChessPiece>();
-                    _currentPieceSelect.ShowPossibleMoves();
+                    _currentPieceSelect.ShowPossibleMoves(_currentPieceSelect.color);
                     _chessBoard.HighlightValidMoves( _currentPieceSelect.color,_currentPieceSelect.ListCanMove);
                 }
             }
@@ -41,7 +41,6 @@ public class GameController : MonoBehaviour
                         Tile tile = info.transform.gameObject.GetComponent<Tile>();
                         if (_currentPieceSelect.CanMoveTo(tile.GetPosInBoard()))
                         {
-                            tile.IsHasChess = true;
                             _currentPieceSelect.MoveTo(tile.GetPosInBoard());
                             _currentPieceSelect = null;
                             _chessBoard.ResetColorBoard();

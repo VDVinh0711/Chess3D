@@ -564,7 +564,7 @@ MonoBehaviour:
   - type: 2
     color: {r: 0, g: 0, b: 0, a: 0}
   - type: 3
-    color: {r: 0.7169812, g: 0.65272343, b: 0.65272343, a: 0}
+    color: {r: 0, g: 1, b: 0.19503093, a: 0}
   - type: 4
     color: {r: 0.8207547, g: 0.2516465, b: 0.2516465, a: 0}
 --- !u!4 &1470573789
@@ -697,13 +697,13 @@ MonoBehaviour:
     pieces:
     - prefab: {fileID: 135237038625882798, guid: 51ae46662d76b794183e76c32ec9dd0c, type: 3}
       type: 1
-    - prefab: {fileID: 135237038625882798, guid: 7e127b6041a57c447af35105284c860c, type: 3}
+    - prefab: {fileID: 135237038625882798, guid: fc3d4707d1e6bd245a1fd31fba533cb2, type: 3}
       type: 2
-    - prefab: {fileID: 135237038625882798, guid: 7e127b6041a57c447af35105284c860c, type: 3}
+    - prefab: {fileID: 135237038625882798, guid: 5b1f109d65e1ad24d899c31a2191d6a5, type: 3}
       type: 3
-    - prefab: {fileID: 135237038625882798, guid: 7e127b6041a57c447af35105284c860c, type: 3}
+    - prefab: {fileID: 135237038625882798, guid: 6ed46fbb910e83340b1efae5599f1fa7, type: 3}
       type: 4
-    - prefab: {fileID: 135237038625882798, guid: 7e127b6041a57c447af35105284c860c, type: 3}
+    - prefab: {fileID: 135237038625882798, guid: 75f048420537caa4a996a97d0b10c881, type: 3}
       type: 5
     - prefab: {fileID: 135237038625882798, guid: 7e127b6041a57c447af35105284c860c, type: 3}
       type: 6
