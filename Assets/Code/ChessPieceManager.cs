@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChessPieceManager : MonoBehaviour
+public class ChessPieceManager : Singleton<ChessPieceManager>
 {
     private List<ChessPiece> _chessPieces = new();
     [SerializeField] private DataChessPieceManager dataChessPieceManager;
     [SerializeField] private ChessBoard _chessBoard;
-
+    public List<ChessPiece> ChessPieces => _chessPieces;
 
     private void Start()
     {
@@ -18,8 +18,12 @@ public class ChessPieceManager : MonoBehaviour
     {
         // SetupPieces(ChessPieceColor.Black, 0, 1);
         // SetupPieces(ChessPieceColor.White, 7, 6);
-       SpawnPiece( new Vector2Int(4, 0), ChessPieceColor.Black,ChessPieceType.Pawn);
-       SpawnPiece( new Vector2Int(5, 6), ChessPieceColor.White,ChessPieceType.Pawn);
+       SpawnPiece( new Vector2Int(4, 0), ChessPieceColor.Black,ChessPieceType.Rook);
+       SpawnPiece( new Vector2Int(6, 0), ChessPieceColor.Black,ChessPieceType.Rook);
+       SpawnPiece( new Vector2Int(0, 2), ChessPieceColor.Black,ChessPieceType.Queen);
+       SpawnPiece( new Vector2Int(5, 7), ChessPieceColor.White,ChessPieceType.King);
+       SpawnPiece( new Vector2Int(0, 0), ChessPieceColor.Black,ChessPieceType.King);
+       SpawnPiece( new Vector2Int(7, 6), ChessPieceColor.White,ChessPieceType.Queen);
     }
     
 
@@ -50,7 +54,7 @@ public class ChessPieceManager : MonoBehaviour
     }
     
     
-    private void SpawnPiece( Vector2Int posInBoard, ChessPieceColor color , ChessPieceType type)
+    public void SpawnPiece( Vector2Int posInBoard, ChessPieceColor color , ChessPieceType type)
     {
         Transform gospawn = dataChessPieceManager.GetPiecePrefab(color, type);
         Transform chessSpawn = Instantiate(gospawn);
@@ -65,5 +69,11 @@ public class ChessPieceManager : MonoBehaviour
         {
             Debug.LogError("Piece prefab does not have a ChessPiece component!");
         }
+    }
+
+    public void DeSpawnPiece(ChessPiece chessPiece)
+    {
+        _chessPieces.Remove(chessPiece);
+        Destroy(chessPiece.gameObject);
     }
 }

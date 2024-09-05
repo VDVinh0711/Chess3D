@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9032542889282685088}
   - component: {fileID: 8580883259506807693}
   m_Layer: 9
-  m_Name: King
+  m_Name: KingBlack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,4 +119,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 2
-  ListCanMove: []

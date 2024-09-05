@@ -5,8 +5,12 @@ using UnityEngine;
 public class Knight : ChessPiece
 {
   
-    public override void ShowPossibleMoves(ChessPieceColor color)
+   
+
+    public override List<Vector2Int> GetListPosCanMove()
     {
+
+        List<Vector2Int> posResult = new();
         Vector2Int[] offsets = new Vector2Int[]
         {
             new Vector2Int(posInBoard.x - 1, posInBoard.y+2),   
@@ -33,7 +37,16 @@ public class Knight : ChessPiece
                     continue;
                 }
             }
-            ListCanMove.Add(posAdd);
+            posResult.Add(posAdd);
         }
+
+
+      
+        return posResult;
+    }
+
+    public override ChessPieceType GetTypeOfChessPiece()
+    {
+        return ChessPieceType.Knight;
     }
 }

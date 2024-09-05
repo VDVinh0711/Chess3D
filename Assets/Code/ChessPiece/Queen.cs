@@ -4,162 +4,85 @@ using UnityEngine;
 
 public class Queen : ChessPiece
 {
-    public override void ShowPossibleMoves(ChessPieceColor color)
+    public override List<Vector2Int> GetListPosCanMove()
     {
-       //Move strange
 
-       //Move ForWard
-       for (int i = posInBoard.y + 1; i < 8; i++)
-       {
-           Vector2Int posAdd = new Vector2Int(posInBoard.x, i);
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-           {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-           ListCanMove.Add(posAdd);
-       }
-       
-       //Move back
-       for (int i = posInBoard.y-1; i >= 0; i--)
-       {
-           Vector2Int posAdd = new Vector2Int(posInBoard.x, i);
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-           {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-           ListCanMove.Add(posAdd);
-       }
-       
-       //Move Right
-       for (int i = posInBoard.x+1; i < 8; i++)
-       {
-           Vector2Int posAdd = new Vector2Int(i, posInBoard.y);
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-           {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-           ListCanMove.Add(posAdd);
-       
-       }
-       
-       //Move Left
-       for (int i = posInBoard.x-1; i >= 0; i--)
-       {
-           Vector2Int posAdd = new Vector2Int(i, posInBoard.y);
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-           {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-           ListCanMove.Add(posAdd);
-       }
-
-
-       
-      // Hướng lên
-       for (int i = 1; i < 8 - posInBoard.x ; i++)
-       {
-           Vector2Int posAdd = new Vector2Int(posInBoard.x + i, posInBoard.y + i);
-           if(posAdd.x <0 || posAdd.x >=8 || posAdd.y <0 || posAdd.y >=8 ) continue; 
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-           {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-           ListCanMove.Add(posAdd);
-
-       }
-       
-       //Chéo Xuống
-       for (int i = 1; i < 8 - posInBoard.x ; i++)
-       {
+        List<Vector2Int> posResult = new();
         
-           Vector2Int posAdd = new Vector2Int(posInBoard.x + i, posInBoard.y - i);
-           if(posAdd.x <0 || posAdd.x >=8 || posAdd.y <0 || posAdd.y >=8 ) continue; 
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
+           Vector2Int[] directionsStrange = new Vector2Int[]
            {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-          ListCanMove.Add(posAdd);
+               new Vector2Int(0, 1),   // Forward
+               new Vector2Int(0, -1),  // Back
+               new Vector2Int(1, 0),   // Right
+               new Vector2Int(-1, 0)   // Left
+           };
 
-       }
-       
-       // CHéo lên bên trái
-       for (int i = 0; i <  posInBoard.x ; i++)
-       {
-           Vector2Int posAdd = new Vector2Int(posInBoard.x - (i +1), posInBoard.y + i + 1);
-           if(posAdd.x <0 || posAdd.x >=8 || posAdd.y <0 || posAdd.y >=8 ) continue; 
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
+           foreach (var direction in directionsStrange)
            {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
+               for (int i = 1; i < 8; i++)
                {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-           ListCanMove.Add(posAdd);
-          
-         
-       }
-       
-       //Chéo Xuống bên trái
-       for (int i = 0; i <  posInBoard.x ; i++)
-       {
-        
-           Vector2Int posAdd = new Vector2Int(posInBoard.x - i -1 , posInBoard.y - i - 1);
-           if(posAdd.x <0 || posAdd.x >=8 || posAdd.y <0 || posAdd.y >=8 ) continue; 
-           if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-           {
-               ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-               if (chessInPos.color == color)
-               {
-                   break;
-               }
-               ListCanMove.Add(posAdd);
-               break;
-           }
-               ListCanMove.Add(posAdd);
+                   Vector2Int posAdd = new Vector2Int(posInBoard.x + i * direction.x, posInBoard.y + i * direction.y);
+            
+                   if (!IsValidPosition(posAdd)) break;
 
+                   if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
+                   {
+                       ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
+                       if (chessInPos.color != color)
+                       {
+                           posResult.Add(posAdd);
+                       }
+                       break;
+                   }
+            
+                   posResult.Add(posAdd);
+               }
+           }
+
+
+       Vector2Int[] directions = new Vector2Int[]
+       {
+           new Vector2Int(1, 1),   // Up-right
+           new Vector2Int(1, -1),  // Down-right
+           new Vector2Int(-1, 1),  // Up-left
+           new Vector2Int(-1, -1)  // Down-left
+       };
+
+       foreach (var direction in directions)
+       {
+           for (int i = 1; i < 8; i++)
+           {
+               Vector2Int posAdd = new Vector2Int(posInBoard.x + i * direction.x, posInBoard.y + i * direction.y);
+            
+               if (!IsValidPosition(posAdd)) break;
+
+               if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
+               {
+                   ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
+                   if (chessInPos.color != color)
+                   {
+                       posResult.Add(posAdd);
+                   }
+                   break;
+               }
+            
+               posResult.Add(posAdd);
+           }
        }
-    
+       return posResult;
+
     }
 
+    
+    
+    private bool IsValidPosition(Vector2Int pos)
+    {
+        return pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8;
+    }
+    public override ChessPieceType GetTypeOfChessPiece()
+    {
+        return ChessPieceType.Queen;
+    }
 
 
     

@@ -8,8 +8,9 @@ public abstract class ChessPiece : MonoBehaviour
     public ChessPieceColor color;
     protected Vector2Int posInBoard;
     protected ChessBoard board;
-    public List<Vector2Int> ListCanMove = new();
+   
     public Vector2Int PosInBoard => posInBoard;
+    
 
     public virtual void Initialize(ChessBoard board, Vector2Int posInBoard, ChessPieceColor color)
     {
@@ -24,7 +25,8 @@ public abstract class ChessPiece : MonoBehaviour
 
     public bool CanMoveTo(Vector2Int targetPosition)
     {
-        if (ListCanMove.Contains(targetPosition))
+        List<Vector2Int> posCanMove = GetListPosCanMove();
+        if ( posCanMove.Contains(targetPosition))
         {
             return true;
         }
@@ -39,9 +41,9 @@ public abstract class ChessPiece : MonoBehaviour
         board.pointPices[posInBoard.x, posInBoard.y].IsHasChess = true;
         this.transform.SetParent(postile);
         transform.position = new Vector3(postile.position.x, 0, postile.position.z);
-        ListCanMove.Clear();
     }
 
-    public abstract void ShowPossibleMoves(ChessPieceColor color);
+    public abstract List<Vector2Int> GetListPosCanMove();
+    public abstract ChessPieceType GetTypeOfChessPiece();
 
 }

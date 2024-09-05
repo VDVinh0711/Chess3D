@@ -27,26 +27,16 @@ public class Tile : MonoBehaviour
     public ChessPiece GetChessInTile()
     {
         if (!_isHasChess) return null;
-        return this.gameObject.GetComponentInChildren<ChessPiece>();
+        return gameObject.GetComponentInChildren<ChessPiece>();
     }
 
     public void DisplayValidMoves(ChessPieceColor colorChessMove)
     {
         ChessPiece chessInTile = transform.GetComponentInChildren<ChessPiece>();
-        Debug.Log(this.transform.childCount);
         Renderer renderer = this.gameObject.GetComponent<Renderer>();
-         if (chessInTile != null && colorChessMove != chessInTile.color)
-         {
-          //  Show color khác
-           
-            renderer.material.color = SafeColor.Instance.GetColorByType(TypeColor.hlenemyy);
-         }
-         else
-         {
-           // Show color direct
-            renderer.material.color = SafeColor.Instance.GetColorByType(TypeColor.heightlight);
-        }
-        
+        renderer.material.color = chessInTile != null && colorChessMove != chessInTile.color ?
+            SafeColor.Instance.GetColorByType(TypeColor.hlenemyy) :
+            SafeColor.Instance.GetColorByType(TypeColor.heightlight);
     }
     
     

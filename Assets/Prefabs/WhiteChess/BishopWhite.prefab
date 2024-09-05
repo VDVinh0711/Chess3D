@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8545278370390072070}
   - component: {fileID: 3397140598948767448}
   - component: {fileID: 9032542889282685088}
-  - component: {fileID: 5677071310312097598}
+  - component: {fileID: 6378864859085504370}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: BishopWhite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 1578380465392326736, guid: 92e50c0aacdd66249acdd817010b394d, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5677071310312097598
+--- !u!114 &6378864859085504370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3047946096377938091}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 945a15bed39022945a07faf621c0fcce, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d2c9a3e9f959b3498052b74e995b026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: 2
+  color: 1
