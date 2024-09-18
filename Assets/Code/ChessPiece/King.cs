@@ -35,19 +35,22 @@ public class King : ChessPiece
             posResult.Add(posAdd);
         }
 
-        // ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
-        // HashSet<Vector2Int> enemyMoves = new HashSet<Vector2Int>();
-        //
-        // foreach (ChessPiece chessPiece in chessPieceManager.ChessPieces)
-        // {
-        //     if (chessPiece.color != this.color)
-        //     {
-        //         enemyMoves.UnionWith(chessPiece.GetListPosCanMove());
-        //     }
-        // }
-        //
-        // posResult.RemoveAll(pos => enemyMoves.Contains(pos));
-        
+        ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
+       
+        foreach (ChessPiece chessenemy in chessPieceManager.ChessPieces)
+        {
+            if (chessenemy.color != this.color && chessenemy.GetTypeOfChessPiece() != ChessPieceType.King)
+            {
+                foreach (var pos in chessenemy.GetListPosCanMove())
+                {
+                    if (!posResult.Remove(pos))
+                    {
+                        continue;
+                    }
+                }
+                
+            }
+        }
         return posResult;
     }
     

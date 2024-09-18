@@ -23,6 +23,7 @@ public class GameRule
         {
             if (chessPiece.color != enemyColor)
             {
+                if(chessPiece.GetTypeOfChessPiece() == ChessPieceType.King) continue;
                 foreach (var pos in chessPiece.GetListPosCanMove())
                 {
                     if (pos == kingEnemy.PosInBoard)
@@ -37,5 +38,16 @@ public class GameRule
         }
         ChessPiceceProtect = chessProtect.ToArray();
         return chessProtect.Count !=0 ;
+    }
+
+
+    public bool IscanEat(ChessPiece current, ChessPiece enemy)
+    {
+        if (current.GetListPosCanMove().Contains(enemy.PosInBoard))
+        {
+            return true;
+        }
+
+        return false;
     }
 }

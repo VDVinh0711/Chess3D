@@ -16,14 +16,9 @@ public class ChessPieceManager : Singleton<ChessPieceManager>
 
     private void InitChessPiece()
     {
-        // SetupPieces(ChessPieceColor.Black, 0, 1);
-        // SetupPieces(ChessPieceColor.White, 7, 6);
-       SpawnPiece( new Vector2Int(4, 0), ChessPieceColor.Black,ChessPieceType.Rook);
-       SpawnPiece( new Vector2Int(6, 0), ChessPieceColor.Black,ChessPieceType.Rook);
-       SpawnPiece( new Vector2Int(0, 2), ChessPieceColor.Black,ChessPieceType.Queen);
-       SpawnPiece( new Vector2Int(5, 7), ChessPieceColor.White,ChessPieceType.King);
-       SpawnPiece( new Vector2Int(0, 0), ChessPieceColor.Black,ChessPieceType.King);
-       SpawnPiece( new Vector2Int(7, 6), ChessPieceColor.White,ChessPieceType.Queen);
+         SetupPieces(ChessPieceColor.Black, 0, 1);
+         SetupPieces(ChessPieceColor.White, 7, 6);
+      
     }
     
 
@@ -46,11 +41,11 @@ public class ChessPieceManager : Singleton<ChessPieceManager>
         SpawnPiece( new Vector2Int(5, backRow), color , ChessPieceType.Bishop);
 
         // Đặt hậu
-        SpawnPiece( new Vector2Int(3, 3), color,ChessPieceType.Queen);
+        SpawnPiece( new Vector2Int(3, backRow), color,ChessPieceType.Queen);
 
         // Đặt vua
        // SpawnPiece( new Vector2Int(4, backRow), color,ChessPieceType.King);
-        SpawnPiece( new Vector2Int(4, 3), color,ChessPieceType.King);
+        SpawnPiece( new Vector2Int(4, backRow), color,ChessPieceType.King);
     }
     
     

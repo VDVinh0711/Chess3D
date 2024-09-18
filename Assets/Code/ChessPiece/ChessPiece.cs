@@ -26,6 +26,8 @@ public abstract class ChessPiece : MonoBehaviour
     public bool CanMoveTo(Vector2Int targetPosition)
     {
         List<Vector2Int> posCanMove = GetListPosCanMove();
+
+        if (targetPosition == this.posInBoard) return false;
         if ( posCanMove.Contains(targetPosition))
         {
             return true;
