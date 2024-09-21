@@ -46,6 +46,6 @@ public abstract class ChessPiece : MonoBehaviour
     }
 
     public abstract List<Vector2Int> GetListPosCanMove();
-    public abstract ChessPieceType GetTypeOfChessPiece();
+    public abstract ChessPieceType GetTypeChessPiece();
 
 }

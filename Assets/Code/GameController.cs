@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -7,6 +8,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private ChessBoard _chessBoard;
     private Camera _currentCamera;
     private GameRule _gameRule;
+
+    private ChessPiece[] _chessPiecesProtect;
 
     private void Awake()
     {
@@ -42,6 +45,11 @@ public class GameController : MonoBehaviour
         _chessBoard.ResetColorBoard();
         ChessPiece clickedPiece = hitInfo.transform.GetComponent<ChessPiece>();
 
+        if (_playerController.CurrentTurn.isCheck)
+        {
+            bool isExits =_chessPiecesProtect.FirstOrDefault(c => c.GetTypeChessPiece() == clickedPiece.GetTypeChessPiece()) != null;
+            if (!isExits)  return;
+        }
         if (clickedPiece.color == _playerController.CurrentTurn.ColorChess)
         {
             SelectPiece(clickedPiece);
@@ -86,7 +94,13 @@ public class GameController : MonoBehaviour
             : ChessPieceColor.White;
 
         _playerController.SwitchTurn();
-        _playerController.CurrentTurn.isCheck = _gameRule.IsCheckKingEnemy(_playerController.CurrentTurn.ColorChess, out ChessPiece[] chessPieces);
+        _playerController.CurrentTurn.isCheck = _gameRule.IsCheckKingEnemy(_playerController.CurrentTurn.ColorChess, out _chessPiecesProtect);
+       
+        foreach (var chessPiece in _chessPiecesProtect)
+        {
+            Debug.Log(chessPiece.GetTypeChessPiece());
+        }
+ 
     }
 
     private void EndClick()

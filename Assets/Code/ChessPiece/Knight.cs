@@ -45,7 +45,7 @@ public class Knight : ChessPiece
         return posResult;
     }
 
-    public override ChessPieceType GetTypeOfChessPiece()
+    public override ChessPieceType GetTypeChessPiece()
     {
         return ChessPieceType.Knight;
     }

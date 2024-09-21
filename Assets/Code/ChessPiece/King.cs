@@ -39,7 +39,7 @@ public class King : ChessPiece
        
         foreach (ChessPiece chessenemy in chessPieceManager.ChessPieces)
         {
-            if (chessenemy.color != this.color && chessenemy.GetTypeOfChessPiece() != ChessPieceType.King)
+            if (chessenemy.color != this.color && chessenemy.GetTypeChessPiece() != ChessPieceType.King)
             {
                 foreach (var pos in chessenemy.GetListPosCanMove())
                 {
@@ -60,7 +60,7 @@ public class King : ChessPiece
     
     
     
-    public override ChessPieceType GetTypeOfChessPiece()
+    public override ChessPieceType GetTypeChessPiece()
     {
         return ChessPieceType.King;
     }

@@ -49,7 +49,7 @@ public class Bishop : ChessPiece
     {
         return pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8;
     }
-    public override ChessPieceType GetTypeOfChessPiece()
+    public override ChessPieceType GetTypeChessPiece()
     {
         return ChessPieceType.Bishop;
     }

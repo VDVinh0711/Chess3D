@@ -8,46 +8,61 @@ public class GameRule
     {
         ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
         ChessPiece kingEnemy = chessPieceManager.ChessPieces.FirstOrDefault(chess =>
-            chess.color == enemyColor && chess.GetTypeOfChessPiece() == ChessPieceType.King);
+            chess.color == enemyColor && chess.GetTypeChessPiece() == ChessPieceType.King);
         if (kingEnemy.GetListPosCanMove().Count != 0) return false;
         return true;
     }
 
     public bool IsCheckKingEnemy(ChessPieceColor enemyColor , out ChessPiece[] ChessPiceceProtect)
     {
-        List<ChessPiece> chessProtect = new();
+       
+        List<ChessPiece> chessCheckKings = new();
         ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
         ChessPiece kingEnemy = chessPieceManager.ChessPieces.FirstOrDefault(chess =>
-            chess.color == enemyColor && chess.GetTypeOfChessPiece() == ChessPieceType.King);
+            chess.color == enemyColor && chess.GetTypeChessPiece() == ChessPieceType.King);
         foreach (ChessPiece chessPiece in chessPieceManager.ChessPieces)
         {
-            if (chessPiece.color != enemyColor)
+            if (chessPiece.color == enemyColor) continue;
+            if(chessPiece.GetTypeChessPiece() == ChessPieceType.King) continue;
+            foreach (var pos in chessPiece.GetListPosCanMove())
             {
-                if(chessPiece.GetTypeOfChessPiece() == ChessPieceType.King) continue;
-                foreach (var pos in chessPiece.GetListPosCanMove())
+                if (pos == kingEnemy.PosInBoard)
                 {
-                    if (pos == kingEnemy.PosInBoard)
-                    {
-                        chessProtect.Add(chessPiece);
-                        break;
-                    }
-                 
+                    chessCheckKings.Add(chessPiece);
+                    break;
                 }
-               
             }
         }
-        ChessPiceceProtect = chessProtect.ToArray();
-        return chessProtect.Count !=0 ;
-    }
-
-
-    public bool IscanEat(ChessPiece current, ChessPiece enemy)
-    {
-        if (current.GetListPosCanMove().Contains(enemy.PosInBoard))
+        
+        
+        List<ChessPiece> chessProtect = new();
+        foreach (ChessPiece chessPiece in chessPieceManager.ChessPieces)
         {
-            return true;
+            if (chessPiece.color != enemyColor) continue;
+            foreach (var pos in chessPiece.GetListPosCanMove())
+            {
+                bool match = false;
+                foreach (var posEnemy in chessCheckKings)
+                {
+                    if (posEnemy.GetListPosCanMove().Contains(pos))
+                    {
+                        chessProtect.Add(chessPiece);
+                        match = true;
+                        break;
+                    }
+                }
+                if(match) break;
+            }
         }
 
-        return false;
+
+        ChessPiceceProtect = chessProtect.ToArray();
+        return chessCheckKings.Count !=0 ;
     }
+
+
+    public bool IscanEat(ChessPiece current, ChessPiece enemy) =>
+        current.GetListPosCanMove().Contains(enemy.PosInBoard);
+
+    
 }

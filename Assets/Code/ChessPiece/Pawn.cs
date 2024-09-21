@@ -8,7 +8,6 @@ public class Pawn : ChessPiece
     public override void MoveTo(Vector2Int targetPosition)
     {
         base.MoveTo(targetPosition);
-        Debug.Log(targetPosition.y);
         if (targetPosition.y == 0 && this.color == ChessPieceColor.White || targetPosition.y == 7 && this.color == ChessPieceColor.Black)
         {
             ChessPieceManager.Instance.SpawnPiece(targetPosition,this.color,ChessPieceType.Queen);
@@ -48,29 +47,26 @@ public class Pawn : ChessPiece
        
         foreach (Vector2Int offset in offsets)
         {
-            if(offset.x <0 || offset.x >=8 || offset.y <0 || offset.y >=8 ) continue; 
-            if (offset.x != this.posInBoard.x)
+            if(offset.x <0 || offset.x >=8 || offset.y <0 || offset.y >=8 ) continue;
+            if (offset.x != posInBoard.x)
             {
-                if (board.pointPices[offset.x, offset.y].IsHasChess)
+                Tile tile = board.pointPices[offset.x, offset.y];
+                if (tile.IsHasChess  && tile.GetChessInTile().color != this.color)
                 {
-                    ChessPiece chessInPos = board.pointPices[offset.x, offset.y].GetChessInTile();
-                    if (chessInPos.color != color)
-                    {
-                        posResult.Add(offset);
-                    }
+                    posResult.Add(offset);
                 }
             }
-            else
+            else 
+            if(!board.pointPices[offset.x,offset.y].IsHasChess)
             {
                 posResult.Add(offset);
             }
-           
         }
 
         return posResult;
     }
 
-    public override ChessPieceType GetTypeOfChessPiece()
+    public override ChessPieceType GetTypeChessPiece()
     {
         return ChessPieceType.Pawn;
     }
