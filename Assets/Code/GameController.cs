@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -45,11 +46,13 @@ public class GameController : MonoBehaviour
         _chessBoard.ResetColorBoard();
         ChessPiece clickedPiece = hitInfo.transform.GetComponent<ChessPiece>();
 
-        if (_playerController.CurrentTurn.isCheck)
-        {
-            bool isExits =_chessPiecesProtect.FirstOrDefault(c => c.GetTypeChessPiece() == clickedPiece.GetTypeChessPiece()) != null;
-            if (!isExits)  return;
-        }
+        // if (_playerController.CurrentTurn.isCheck)
+        // {
+        //     bool isExits =_chessPiecesProtect.FirstOrDefault(c => c.GetTypeChessPiece() == clickedPiece.GetTypeChessPiece()) != null;
+        //     if (!isExits)  return;
+        // }
+        
+        Debug.Log(ValidateMove(clickedPiece));
         if (clickedPiece.color == _playerController.CurrentTurn.ColorChess)
         {
             SelectPiece(clickedPiece);
@@ -63,7 +66,7 @@ public class GameController : MonoBehaviour
     private void SelectPiece(ChessPiece piece)
     {
         _currentPieceSelect = piece;
-        _chessBoard.HighlightValidMoves(_currentPieceSelect.color, _currentPieceSelect.GetListPosCanMove());
+        _chessBoard.HighlightValidMoves(_currentPieceSelect.color, _currentPieceSelect.GetAvailableMoves());
     }
 
     private void EatPiece(ChessPiece targetPiece)
@@ -89,23 +92,37 @@ public class GameController : MonoBehaviour
 
     private void EndMoveChessPiece()
     {
-        ChessPieceColor enemyColor = _currentPieceSelect.color == ChessPieceColor.White
-            ? ChessPieceColor.Black
-            : ChessPieceColor.White;
-
+  
+         bool isCheckEnemy = _gameRule.IsCheckKingEnemy(_currentPieceSelect.color);
         _playerController.SwitchTurn();
-        _playerController.CurrentTurn.isCheck = _gameRule.IsCheckKingEnemy(_playerController.CurrentTurn.ColorChess, out _chessPiecesProtect);
-       
-        foreach (var chessPiece in _chessPiecesProtect)
-        {
-            Debug.Log(chessPiece.GetTypeChessPiece());
-        }
- 
+        _playerController.CurrentTurn.isCheck = isCheckEnemy;
     }
 
     private void EndClick()
     {
         _currentPieceSelect = null;
         _chessBoard.ResetColorBoard();
+    }
+    
+    private bool ValidateMove(ChessPiece clickedPiece )
+    {
+        ChessPiece king =
+            ChessPieceManager.Instance.GetChessByType(ChessPieceType.King, _playerController.CurrentTurn.ColorChess);
+        foreach (var chessPiece in ChessPieceManager.Instance.GetChessEnemy(_playerController.CurrentTurn.ColorChess))
+        {
+            List<Vector2Int> pathtoEnemyKing =
+                chessPiece.GetPathToEnemyKing(_playerController.CurrentTurn.ColorChess, king.PosInBoard);
+
+            if( pathtoEnemyKing== null) continue;
+            
+            Debug.Log(pathtoEnemyKing);
+            if (pathtoEnemyKing.Contains(clickedPiece.PosInBoard))
+            {
+                return false;
+            }
+            
+        }
+
+        return true;
     }
 }

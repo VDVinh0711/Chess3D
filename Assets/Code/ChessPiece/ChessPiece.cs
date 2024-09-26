@@ -25,7 +25,7 @@ public abstract class ChessPiece : MonoBehaviour
 
     public bool CanMoveTo(Vector2Int targetPosition)
     {
-        List<Vector2Int> posCanMove = GetListPosCanMove();
+        List<Vector2Int> posCanMove = GetAvailableMoves();
 
         if (targetPosition == this.posInBoard) return false;
         if ( posCanMove.Contains(targetPosition))
@@ -45,7 +45,12 @@ public abstract class ChessPiece : MonoBehaviour
         transform.position = new Vector3(postile.position.x, 0, postile.position.z);
     }
 
-    public abstract List<Vector2Int> GetListPosCanMove();
-    public abstract ChessPieceType GetTypeChessPiece();
+    public abstract List<Vector2Int> GetAvailableMoves();
+    public abstract ChessPieceType GetPieceType();
 
+    public abstract List<Vector2Int> GetPathToEnemyKing(ChessPieceColor enemyColor , Vector2Int enemyKingPos);
+
+    public abstract bool CanCheckEnemyKing(Vector2Int posKingEnemy);
+    
+    public abstract List<Vector2Int> GetAttackPositions(ChessPieceColor colorEnemy);
 }

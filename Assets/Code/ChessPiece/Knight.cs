@@ -1,52 +1,67 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Knight : ChessPiece
 {
-  
-   
-
-    public override List<Vector2Int> GetListPosCanMove()
+    private static readonly Vector2Int[] KnightMoves = new Vector2Int[]
     {
+        new(-1, 2), new(1, 2),
+        new(2, 1), new(2, -1),
+        new(1, -2), new(-1, -2),
+        new(-2, -1), new(-2, 1)
+    };
 
-        List<Vector2Int> posResult = new();
-        Vector2Int[] offsets = new Vector2Int[]
-        {
-            new Vector2Int(posInBoard.x - 1, posInBoard.y+2),   
-            new Vector2Int(posInBoard.x + 1, posInBoard.y+2), 
-            new Vector2Int(posInBoard.x+2, posInBoard.y +1),   
-            new Vector2Int(posInBoard.x+2, posInBoard.y-1),  
-            new Vector2Int(posInBoard.x+1, posInBoard.y-2),   
-            new Vector2Int(posInBoard.x-1, posInBoard.y-2),  
-            new Vector2Int(posInBoard.x-2, posInBoard.y-1), 
-            new Vector2Int(posInBoard.x-2, posInBoard.y+1)  
-        };
-        
-        
-        foreach (Vector2Int offset in offsets)
-        {
-            if(offset.x < 0 || offset.y < 0) continue;
-            Vector2Int posAdd = new Vector2Int(offset.x, offset.y);
-            if(posAdd.x <0 || posAdd.x >=8 || posAdd.y <0 || posAdd.y >=8 ) continue; 
-            if (board.pointPices[posAdd.x, posAdd.y].IsHasChess)
-            {
-                ChessPiece chessInPos = board.pointPices[posAdd.x, posAdd.y].GetChessInTile();
-                if (chessInPos.color == color)
-                {
-                    continue;
-                }
-            }
-            posResult.Add(posAdd);
-        }
-
-
-      
-        return posResult;
+    public override List<Vector2Int> GetAvailableMoves()
+    {
+        return GetValidMoves(false);
     }
 
-    public override ChessPieceType GetTypeChessPiece()
+    public override ChessPieceType GetPieceType()
     {
         return ChessPieceType.Knight;
+    }
+
+    public override List<Vector2Int> GetPathToEnemyKing(ChessPieceColor enemyColor , Vector2Int enemyKingPos)
+    {
+        ChessPiece enemyKing = ChessPieceManager.Instance.GetChessByType(ChessPieceType.King, enemyColor);
+        return GetAvailableMoves().Contains(enemyKing.PosInBoard) 
+            ? new List<Vector2Int> { enemyKing.PosInBoard } 
+            : new List<Vector2Int>();
+    }
+
+    public override bool CanCheckEnemyKing(Vector2Int enemyKingPos)
+    {
+        return GetAvailableMoves().Contains(enemyKingPos);
+    }
+
+    public override List<Vector2Int> GetAttackPositions(ChessPieceColor enemyColor)
+    {
+        return GetValidMoves(true);
+    }
+
+    private List<Vector2Int> GetValidMoves(bool ignoreOccupied)
+    {
+        List<Vector2Int> validMoves = new();
+
+        foreach (Vector2Int move in KnightMoves)
+        {
+            Vector2Int newPos = posInBoard + move;
+
+            if (IsValidPosition(newPos))
+            {
+                if (ignoreOccupied || !board.pointPices[newPos.x, newPos.y].IsHasChess ||
+                    board.pointPices[newPos.x, newPos.y].GetChessInTile().color != color)
+                {
+                    validMoves.Add(newPos);
+                }
+            }
+        }
+
+        return validMoves;
+    }
+
+    private bool IsValidPosition(Vector2Int pos)
+    {
+        return pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8;
     }
 }
