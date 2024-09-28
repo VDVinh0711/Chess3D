@@ -47,9 +47,6 @@ public abstract class ChessPiece : MonoBehaviour
 
     public abstract List<Vector2Int> GetAvailableMoves();
     public abstract ChessPieceType GetPieceType();
-
-    public abstract List<Vector2Int> GetPathToEnemyKing(ChessPieceColor enemyColor , Vector2Int enemyKingPos);
-
     public abstract bool CanCheckEnemyKing(Vector2Int posKingEnemy);
     
     public abstract List<Vector2Int> GetAttackPositions(ChessPieceColor colorEnemy);

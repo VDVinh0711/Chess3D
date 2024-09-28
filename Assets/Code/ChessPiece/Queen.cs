@@ -18,12 +18,6 @@ public class Queen : ChessPiece
     {
         return ChessPieceType.Queen;
     }
-
-    public override List<Vector2Int> GetPathToEnemyKing(ChessPieceColor enemyColor , Vector2Int enemyKingPos)
-    {
-        return null;
-    }
-
     public override bool CanCheckEnemyKing(Vector2Int enemyKingPos)
     {
         return GetAvailableMoves().Contains(enemyKingPos);

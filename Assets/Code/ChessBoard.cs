@@ -54,8 +54,6 @@ public class ChessBoard : MonoBehaviour
             Renderer renderer =  pointPices[pos.x, pos.y].transform.GetComponent<Renderer>();
             renderer.material.color = (pos.x + pos.y) % 2 == 0 ? SafeColor.Instance.GetColorByType(TypeColor.white)  : SafeColor.Instance.GetColorByType(TypeColor.black);
         }
-              
- 
     }
     
    

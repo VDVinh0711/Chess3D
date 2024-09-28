@@ -8,18 +8,15 @@ public class GameRule
     {
         // _curentturn is check and King don't have point to move and dont have any chess can protect
         ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
-        ChessPiece kingEnemy = chessPieceManager.ChessPieces.FirstOrDefault(chess =>
+        ChessPiece kingEnemy = chessPieceManager.ActivePieces.FirstOrDefault(chess =>
             chess.color == enemyColor && chess.GetPieceType() == ChessPieceType.King);
         if (kingEnemy.GetAvailableMoves().Count != 0) return false;
         return true;
     }
 
-    public bool IsCheckKingEnemy( ChessPieceColor color )
+    public bool IsCheckKing( Vector2Int posKingEnemy , List<ChessPiece> chessPieces )
     {
-        ChessPieceColor colorenemy = color == ChessPieceColor.Black ? ChessPieceColor.White : ChessPieceColor.Black; 
-        ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
-        Vector2Int posKingEnemy = chessPieceManager.GetChessByType(ChessPieceType.King, colorenemy).PosInBoard;
-        foreach (var chessPiece  in chessPieceManager.GetChessByColor(color))
+        foreach (var chessPiece  in chessPieces)
         {
             if (chessPiece.CanCheckEnemyKing(posKingEnemy))
             {

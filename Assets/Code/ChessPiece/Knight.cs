@@ -20,15 +20,7 @@ public class Knight : ChessPiece
     {
         return ChessPieceType.Knight;
     }
-
-    public override List<Vector2Int> GetPathToEnemyKing(ChessPieceColor enemyColor , Vector2Int enemyKingPos)
-    {
-        ChessPiece enemyKing = ChessPieceManager.Instance.GetChessByType(ChessPieceType.King, enemyColor);
-        return GetAvailableMoves().Contains(enemyKing.PosInBoard) 
-            ? new List<Vector2Int> { enemyKing.PosInBoard } 
-            : new List<Vector2Int>();
-    }
-
+    
     public override bool CanCheckEnemyKing(Vector2Int enemyKingPos)
     {
         return GetAvailableMoves().Contains(enemyKingPos);

@@ -37,9 +37,8 @@ public class King : ChessPiece
 
         
         ChessPieceColor colorenemy = this.color == ChessPieceColor.Black ? ChessPieceColor.White : ChessPieceColor.Black; 
-         ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
-        
-        foreach (ChessPiece chessenemy in chessPieceManager.GetChessByColor(colorenemy))
+        ChessPieceManager chessPieceManager = ChessPieceManager.Instance;
+        foreach (ChessPiece chessenemy in chessPieceManager.GetPlayerPieces(colorenemy))
         {
            // if (chessenemy.GetTypeChessPiece() == ChessPieceType.King ) continue;
             posResult.RemoveAll(pos => chessenemy.GetAttackPositions(colorenemy).Contains(pos));
@@ -51,11 +50,7 @@ public class King : ChessPiece
     {
         return ChessPieceType.King;
     }
-
-    public override List<Vector2Int> GetPathToEnemyKing(ChessPieceColor enemyColor , Vector2Int enemyKingPos)
-    {
-        return null;
-    }
+    
 
     public override bool CanCheckEnemyKing(Vector2Int posKingEnemy)
     {
